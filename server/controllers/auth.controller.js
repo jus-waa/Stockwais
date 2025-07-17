@@ -26,6 +26,15 @@ export const signup = async(req, res) => {
         const hashedPassword = await bcryptjs.hash(password, 10);
         const verificationToken = Math.floor(100000 + Math.random() * 900000);
         const verificationTokenExpiresAt = new Date(Date.now() + 10 * 60 * 60 * 1000) //1hr
+        //insert user to db
+        const insertUser = "INSERT INTO users (name, email, phone_number, password, verification_token, verification_expires_at) VALUES ($1, $2, $3, $4, $5, $6) returning *";
+        const valueUser = [name, email, phone_number, hashedPassword, verificationToken, verificationTokenExpiresAt];
+
+        const resultUser = await db.query(insertUser, valueUser);
+        //generate token and set cookie
+        const user = resultUser.rows[0];    
+        generateTokenAndSetCookie();
+        //
     } catch (error) {
         
     }
