@@ -34,8 +34,29 @@ export const signup = async(req, res) => {
         //generate token and set cookie
         const user = resultUser.rows[0];    
         generateTokenAndSetCookie();
-        //
-    } catch (error) {
+
+        //send OTP to email
+
+        //or
+
+        //send OTP to phone number
+
+        //if success
+        res.status(201).json({
+            status: "success",
+            message: "Account created successfully.",
+            //use spread op for user
+            user: {
+                ...user,
+                password: undefined,
+            }
+        });
+    } catch (err) {
+        console.log("Signup error: " + err);
+        res.status(400).json({
+            status: "failed",
+            message: err.message
+        });
         
     }
 };
