@@ -1,8 +1,9 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+import passport from "passport";
+import pkg from "passport-google-oauth2"; //import 
+const {Strategy: GoogleStrategy} = pkg;   //then extract strategy from pkg(passport-google-oauth2)
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
