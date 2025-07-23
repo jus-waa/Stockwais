@@ -18,6 +18,14 @@ app.use(morgan("dev"));
 
 app.use('/api/v1/auth', authRoutes);
 
+app.get('/', (req, res) => {
+    res.send('<a href="/auth/google">Auth w/ Google</a>');
+});
+
+app.get('/protected', (req, res) => {
+    res.send('Hello World');
+});
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

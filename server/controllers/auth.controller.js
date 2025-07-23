@@ -1,5 +1,6 @@
 import db from "../db/conn.js";
 import bcryptjs from "bcryptjs";
+import { generateTokenAndSetCookies } from "../utils/generateTokenAndSetCookies.js";
 
 export const signup = async(req, res) => {
     //extracting values
@@ -7,7 +8,7 @@ export const signup = async(req, res) => {
     try {
         //check for empty fields
         if (!name || !email || !phone_number || !password) {
-            res.status(400).json({
+            return res.status(400).json({
                 status: "failed",
                 message: "All fields are required."
             });
@@ -17,9 +18,9 @@ export const signup = async(req, res) => {
         const valueEmail = [email];
         const userExist = await db.query(checkEmail, valueEmail);
         if (userExist.rows.length > 0) {
-            res.status(400).json({
+            return res.status(400).json({
                 status: "failed",
-                message: "All fields are required."
+                message: "Email already registered."
             });
         }
         //hashing password
@@ -31,32 +32,29 @@ export const signup = async(req, res) => {
         const valueUser = [name, email, phone_number, hashedPassword, verificationToken, verificationTokenExpiresAt];
 
         const resultUser = await db.query(insertUser, valueUser);
-        //generate token and set cookie
+        //generate token and set cookie (access token?)
         const user = resultUser.rows[0];    
-        generateTokenAndSetCookie();
-
-        //send OTP to email
-
-        //or
-
-        //send OTP to phone number
-
-        //if success
+        /*
+         * const token = generateTokenAndSetCookies(res, user.id); 
+         * 
+         *
+         * const {
+            password: undefined,
+            ...safeUser
+         * } = user;
+        */
         res.status(201).json({
             status: "success",
             message: "Account created successfully.",
             //use spread op for user
-            user: {
-                ...user,
-                password: undefined,
-            }
+            user: safeUser,
+            token
         });
-    } catch (err) {
+        } catch (err) {
         console.log("Signup error: " + err);
         res.status(400).json({
             status: "failed",
             message: err.message
         });
-        
     }
 };
