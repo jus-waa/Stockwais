@@ -5,11 +5,11 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn server/index.ts",
+    "dev": "ts-node-dev --respawn server/server.ts",
     "build": "tsc",
-    "start": "node build/server/index.js"
+    "start": "node build/server/server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
