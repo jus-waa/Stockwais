@@ -25,6 +25,9 @@
     "nodemailer": "^6.10.1"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/morgan": "^1.9.10",
     "nodemon": "^3.1.10"
   }
 }
