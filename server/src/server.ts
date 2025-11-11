@@ -16,13 +16,13 @@ app.use(cors());
 app.use(helmet());
 app.use(morgan("dev"));
 
-
 app.get('/', (req, res) => {
   res.status(200).json({
     success: true,
     message: "API working"
   });
 });
+
 app.listen(PORT, () => {
   console.log(`API is running in port: ${PORT}`);
 });;
